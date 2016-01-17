@@ -39,5 +39,6 @@ public class IdenticalArrays {
 		} catch (InputMismatchException ex) {
 			System.out.println("Wrong input");
 		}
+		input.close();
 	}
 }
