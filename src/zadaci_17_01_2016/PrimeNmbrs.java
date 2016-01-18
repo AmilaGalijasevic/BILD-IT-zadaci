@@ -7,21 +7,29 @@ public class PrimeNmbrs {
 	public static void prime(int a, int b, int lines) {
 		// new array list to store prime numbers
 		ArrayList<Integer> primes = new ArrayList<>();
-
+		// temporary variable
+		int temp = 0;
+		// if a is smaller than b
+		if (a > b) {
+			temp = a;
+			a = b;
+			b = temp;
+		}
 		int counter2 = 0;
 		// first loop with start value and end value
 		for (int i = a; i <= b; i++) {
 			// initializes the counter
 			int counter = 0;
-			// second loop that compares the integers
+			// second loop that takes the biggest number in array, compares the
+			// integers and checks if they are divisible with all other numbers
+			// and 1
 			for (a = i; a >= 1; a--) {
-				// if they are divisible by each other they are counted
+				// if they are divisible only with itself and 1 they are counted
 				if (i % a == 0) {
 					counter++;
 				}
 			}
-			// when the two loops find 2 same divisible numbers it ads that number
-			// to the list
+			// ads that number to the list if it was divided two times
 			if (counter == 2) {
 				primes.add(i);
 			}
