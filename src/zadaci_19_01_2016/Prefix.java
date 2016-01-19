@@ -6,10 +6,11 @@ public class Prefix {
 		java.util.Scanner input = new java.util.Scanner(System.in);
 		// first string
 		System.out.println("Enter first string");
-		String first = input.nextLine();
+		//stores it in lower case
+		String first = input.nextLine().toLowerCase();
 		// second string
 		System.out.println("Enter second string");
-		String second = input.nextLine();
+		String second = input.nextLine().toLowerCase();
 		// Initializes prefix string
 		String prefix = "";
 		// initializes temporary string for holding values
