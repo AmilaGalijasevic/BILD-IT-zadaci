@@ -3,6 +3,7 @@ package zadaci_19_01_2016;
 public class Reverse {
 
 	public static void main(String[] args) {
+		
 		java.util.Scanner input = new java.util.Scanner(System.in);
 		// array for storing numbers
 		int[] numbers = new int[10];
