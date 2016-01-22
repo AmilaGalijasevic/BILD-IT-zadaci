@@ -38,14 +38,14 @@ public class MPCalendar {
 			// if input is bigger than 31
 			if (date > 31) {
 				System.out.println("Number too big, try again:");
-				date = input.nextInt() - 1;
+				date = input.nextInt();
 			}
 			System.out.println("Enter a month");
 			int month = input.nextInt();
 			// if input is bigger than 12
 			if (month > 12) {
 				System.out.println("Number too big, try again:");
-				month = input.nextInt() - 1;
+				month = input.nextInt();
 			}
 
 			System.out.println("Enter year");
