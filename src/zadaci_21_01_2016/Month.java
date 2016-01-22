@@ -11,7 +11,7 @@ public class Month {
 			System.out.println("Enter a year and first 3 letters of the wanted month(First letter must be uppercase):");
 			int year = input.nextInt();
 			String months = input.next();
-			int month = 0;
+			int month = 13;
 
 			// array list for storing names of the month
 			ArrayList<String> monthName = new ArrayList<>();
@@ -56,7 +56,7 @@ public class Month {
 				months = input.next();
 
 			}
-			// checks if input and month from the list have the same first
+			// checks if input and month from the list have the same first 3
 			// letters
 			for (int i = 0; i < monthName.size(); i++) {
 				if (months.substring(0, 3).equals(monthName.get(i).substring(0, 3))) {
@@ -71,8 +71,10 @@ public class Month {
 			// catches exceptions
 		} catch (InputMismatchException e) {
 			System.out.println("Wrong input, only numbers allowed ");
+			main(args);
 		} catch (IndexOutOfBoundsException ey) {
-			System.out.println("Wrong input, index out of bounds");
+			System.out.println("Wrong input, try again:");
+			main(args);
 		}
 		input.close();
 	}
