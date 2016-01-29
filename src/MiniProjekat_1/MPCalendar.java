@@ -22,6 +22,7 @@ public class MPCalendar {
 	public static void options(String name) throws FileNotFoundException {
 		// popravila sam par stvari..
 		// sad je nabacano na sve strane, ali radi...  :)
+		
 		java.util.Scanner input = new java.util.Scanner(System.in);
 		ArrayList<Integer> Monthdays = new ArrayList<>();
 		Monthdays.add(31);
