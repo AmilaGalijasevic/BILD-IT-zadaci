@@ -7,6 +7,7 @@ public class Question {
 	public static void main(String[] args) {
 
 		java.util.Scanner input = new java.util.Scanner(System.in);
+		try {
 		// three random numbers
 		int a = (int) (Math.random() * 10);
 		int b = (int) (Math.random() * 20);
@@ -22,7 +23,6 @@ public class Question {
 		}
 
 		System.out.println("Correct answer!");
-		try {
 
 		} catch (InputMismatchException ey) {
 			System.out.println("Wrong input");
