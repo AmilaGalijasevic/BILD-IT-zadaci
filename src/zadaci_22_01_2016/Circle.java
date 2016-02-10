@@ -2,7 +2,7 @@ package zadaci_22_01_2016;
 
 import java.util.InputMismatchException;
 
-public class Circle {
+ class Circle {
 
 	public static void main(String[] args) {
 		java.util.Scanner input = new java.util.Scanner(System.in);
