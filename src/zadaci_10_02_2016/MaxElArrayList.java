@@ -5,16 +5,17 @@ import java.util.Collections;
 import java.util.InputMismatchException;
 
 public class MaxElArrayList {
-	public static int listSize(ArrayList<Integer> list) {
-		// if the list is empty returns zero
+	public static Integer listSize(ArrayList<Integer> list) {
+		// if the list is empty returns null
 		if (list.isEmpty()) {
-			return 0;
+			return null;
 		}
+		else{
 		// finds max element using collections
 		int max = Collections.max(list);
 		return max;
 	}
-
+	}
 	public static void main(String[] args) {
 		java.util.Scanner input = new java.util.Scanner(System.in);
 		// list for storing numbers
