@@ -1,0 +1,81 @@
+﻿//ovo sam pomocu code academy uradila, nadam se da je ok...
+
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/shift.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css">
+    <link rel="stylesheet" href="main.css">
+    
+  </head>
+
+  <body>
+    <div class="nav">
+      <div class="container">
+        <ul class="pull-left">
+        
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Gallery</a></li>
+          <li><a href="#">Contacts</a></li>
+          
+        </ul>
+      </div>
+    </div>
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Tibiscus</h1>
+        <p>Jačanje svesti mladih o potrebi zajedničkog delovanja</p>
+      
+      </div>
+    </div> 
+<div class = "neighborhood-guides">
+<div class="container">
+<h2>Delovanje</h2>
+<p>Udruženje „Tibiskus“ nastalo je od grupe mladih entuzijasta</p>
+<div class = "row">
+<div class="col-md-4">
+
+  <div class="thumbnail">
+  <img src="http://alas.matf.bg.ac.rs/~ml02201/slike/95.JPG">
+</div>
+</div>
+<div class="col-md-4">
+  <div class="thumbnail">
+  <img src="https://scontent-fra3-1.xx.fbcdn.net/hphotos-xaf1/t31.0-8/s960x960/465578_309218459194458_1941452537_o.jpg">
+  </div>  
+</div>
+<div class="col-md-4">
+ <div class="thumbnail">
+  <img src="https://scontent-fra3-1.xx.fbcdn.net/hphotos-xfa1/v/t1.0-0/s480x480/319543_309140995868871_979911931_n.jpg?oh=36d1b847ce733454cb9a6aba221cd47f&oe=575C42C1">
+  </div>
+ 
+</div>
+</div>
+</div>
+    <div class="learn-more">
+	  <div class="container">
+	  <div class = "row">
+	  
+	      
+<h3>O nama</h3>
+			<p>Ime smo dobili po antičkom nazivu reke Tamiš, na kojoj leži grad iz kog dolazimo, Pančevo. Imamo za cilj, razvoj kulture kod mladih, jačanje svesti mladih o potrebi zajedničkog delovanja i potrebi razvoja civilnog društva.</p>
+			<p><a href="#">Više o nama</a></p>
+	     
+			<h3>Razvoj kulture kod mladih</h3>
+			<p>Podsticaj mladih na učešće u odnosu na proces odlučivanja, kao bitnu kariku ka ostvarivanju svojih prava</p>
+			<p><a href="#">Više o akcijama</a></p>
+		 
+			<h3>Prekogranična saradnja i širenje ideje o toleraciji</h3>
+			<p>Međusobno uvažavanje i poštovanje, to su gotovo osnovni postulati naših ideja i ciljeva</p>
+			<p><a href="#">Više o projektima</a></p>
+		 
+	    </div>
+	  </div>
+	</div>
+  </body>
+</html>
