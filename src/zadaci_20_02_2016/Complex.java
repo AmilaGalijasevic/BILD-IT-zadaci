@@ -43,8 +43,8 @@ public class Complex implements Cloneable {
 	// for multiplying
 	public Complex multyply(Complex b) {
 		Complex a = this;
-		double mulA = (a.a * b.b) - (a.b * b.b);
-		double mulB = (a.b * b.a) + (a.a * b.b);
+		double mulA = (a.a * b.a) - (a.b * b.b);
+		double mulB = (a.a * b.b) + (a.a * b.b);
 		return new Complex(mulA, mulB);
 	}
 
