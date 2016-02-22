@@ -4,10 +4,10 @@ public class SumSeries1 {
 	public static double sum;
 
 	public static double m(double i) {
-
+		// base case
 		if (i == 1) {
 			return 1 + sum;
-
+			// calculates
 		} else {
 			sum += 1 / i;
 			i--;
@@ -16,11 +16,8 @@ public class SumSeries1 {
 	}
 
 	public static void main(String[] args) {
-		
-		
-			 System.out.println(m(10));
-		
-
+		// prints it
+		System.out.println(m(10));
 
 	}
 }
