@@ -40,6 +40,10 @@ public class SqlWorld {
 			System.out.println("10 - If you want to see a list of countries by specific language.");
 
 			int choise = input.nextInt();
+			while(choise < 0 || choise > 10){
+				System.out.println("Wrong number, try again");
+				choise = input.nextInt();
+			}
 
 			switch (choise) {
 			case 1: {
