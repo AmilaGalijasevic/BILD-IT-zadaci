@@ -84,10 +84,6 @@ public class SqlWorld {
 				// query with the user input
 				query = "SELECT * from country where name = '" + country + "';";
 				ResultSet result = statement.executeQuery(query);
-				// if it cannot be found
-				if (!result.next()) {
-					System.out.println("Wrong input or query not found");
-				}
 				// prints the result of the query
 				while (result.next()) {
 					System.out.println("Name, Continent, Region, Population, Surface Area: ");
@@ -104,9 +100,6 @@ public class SqlWorld {
 				query = "SELECT * from city where name = '" + city + "';";
 				// executes it
 				ResultSet result = statement.executeQuery(query);
-				if (!result.next()) {
-					System.out.println("Wrong input or query not found");
-				}
 				// prints it
 				while (result.next()) {
 					System.out.println("Name, Country Code, District, Population: ");
