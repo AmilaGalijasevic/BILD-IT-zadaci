@@ -18,7 +18,7 @@ public class Admin {
 	public String IDNum;
 	public int years;
 	public int RoomNum;
-	public String UserName;
+	public static String UserName;
 	public String Password;
 	public String RoomType;
 	public String CheckInTime;
@@ -26,7 +26,7 @@ public class Admin {
 	public String Service;
 	public int Balance;
 	public String LoggedIn;
-	Connection conection;
+	private static Connection conection;
 
 	public Admin() {
 	}
@@ -111,6 +111,7 @@ public class Admin {
 		RoomType = roomType;
 	}
 
+	// creates date
 	public String getCheckInTime() {
 		Date date = new Date(System.currentTimeMillis());
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -121,6 +122,7 @@ public class Admin {
 		CheckInTime = checkInTime;
 	}
 
+	// creates checkout date
 	public String getCheckOutTime() {
 		Date date = new Date(System.currentTimeMillis());
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -172,18 +174,24 @@ public class Admin {
 
 	}
 
-	public void connected(String[] args) throws SQLException {
+	// connects to the database
+	public static Connection conect() throws SQLException {
+		conection = DriverManager.getConnection("jdbc:mysql://localhost:3306/world", "root", "root");
+		return conection;
 
+	}
+
+	public void connected(String[] args) throws SQLException {
 		Scanner input = new Scanner(System.in);
 		try {
-			System.out.println("Welcome to Hotel menagment\n Enter user name:");
-			String userName = input.next();
+			System.out.println("Welcome to Hotel menagment\nEnter user name:");
+			UserName = input.next();
 			System.out.println("Enter password");
-			String pass = input.next();
+			Password = input.next();
 			// connects to database
-			Connection conection = DriverManager.getConnection("jdbc:mysql://localhost:3306/world", "root", "root");
+			conection = DriverManager.getConnection("jdbc:mysql://localhost:3306/world", "root", "root");
 			Statement statement = conection.createStatement();
-			String query = "SELECT * from hotel.userinfo where UserName = '" + userName + "';";
+			String query = "SELECT * from hotel.userinfo where UserName = '" + UserName + "';";
 			ResultSet result = statement.executeQuery(query);
 			String usern = "";
 			String userp = "";
@@ -191,10 +199,11 @@ public class Admin {
 				usern = result.getString(8);
 				userp = result.getString(9);
 			}
-			if (userName.equals("admin") && pass.equals("adminpass")) {
+			//checks user name and password
+			if (UserName.equals("admin") && Password.equals("adminpass")) {
 				Hotel.optionsAdmin(args);
-			} else if (userName.equals(usern) && pass.equals(userp)) {
-				Hotel.optionsUser();
+			} else if (UserName.equals(usern) && Password.equals(userp)) {
+				Hotel.optionsUser(args);
 			} else {
 				System.out.println("User name or password cannot be found");
 				connected(args);
@@ -207,7 +216,7 @@ public class Admin {
 	}
 
 	// metoda za registraciju korisnika
-	public void registration() throws SQLException {
+	public void registration(String[] args) throws SQLException {
 		java.util.Scanner unos = new java.util.Scanner(System.in);
 		String query;
 		System.out.println("Enter user information");
@@ -229,30 +238,73 @@ public class Admin {
 		Password = unos.next();
 		System.out.println("Room number:");
 		RoomNum = unos.nextInt();
-		System.out.println("Room type:");
-		RoomType = unos.next();
+		System.out.println("Room type:\n1 - one-bedroom;\n2 - two-bedroom;\n3 - apartmant. ");
+		int c = unos.nextInt();
+		switch (c) {
+		case 1: {
+			RoomType = "one-bedroom";
+			break;
+		}
+		case 2: {
+			RoomType = "two-bedroom";
+			break;
+		}
+		case 3: {
+			RoomType = "apartmant";
+			break;
+		}
+		}
 		System.out.println("Check in time entered");
 		CheckInTime = getCheckInTime();
-		System.out.println("Service:");
-		Service = unos.next();
 		LoggedIn = "yes";
 		// connection and statement
 		conection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel", "root", "root");
 		Statement statement = conection.createStatement();
+		//searches for room number
+		String query3 = "Select * from hotel.userinfo where RoomNum =" + RoomNum + ";";
+		ResultSet result2 = statement.executeQuery(query3);
+		int rnum = 0;
+		while (result2.next()) {
+			rnum = result2.getInt(7);
+		}
+		//checks room number
+		if (rnum == RoomNum) {
+			System.out.println("Room in use, try again");
+			registration(args);
+		}
+		//searches room type
+		String query1 = "Select * from hotel.services where services ='" + RoomType + "';";
+		ResultSet result = statement.executeQuery(query1);
+		int cost = 0;
+		int available = 0;
+		while (result.next()) {
+			cost = result.getInt(3);
+			available = result.getInt(4);
+		}
+		//checks if its available
+		if (available > 0) {
+			String query2 = "update hotel.services set Availability=" + (available - 1) + "   where services ='"
+					+ RoomType + "';";
+			statement.executeUpdate(query2);
+		} else {
+			System.out.println("Not available\n");
+			registration(args);
+		}
 		// query to insert the inputed values into the data base
-		query = "INSERT INTO hotel.userinfo (ID, Name, LastName, Sex, IDNum, years, RoomNum, RoomType, UserName, Password,CheckInTime, Service, LoggedIn ) VALUES ("
+		query = "INSERT INTO hotel.userinfo (ID, Name, LastName, Sex, IDNum, years, RoomNum, RoomType, UserName, Password,CheckInTime, LoggedIn, Balance ) VALUES ("
 				+ ID + ", '" + Name + "', '" + LastName + "', '" + Sex + "', " + IDNum + ", " + years + ", " + RoomNum
-				+ ", '" + RoomType + "', '" + UserName + "', '" + Password + "', '" + CheckInTime + "', '" + Service
-				+ "', '" + LoggedIn + "');";
+				+ ", '" + RoomType + "', '" + UserName + "', '" + Password + "', '" + CheckInTime + "', '" + LoggedIn
+				+ "', " + cost + ");";
 
 		// executes query
 		statement.executeUpdate(query);
-		System.out.println("Column successfully updated");
+		System.out.println("User successfully registreted");
+		Hotel.optionsAdmin(args);
 		unos.close();
 
 	}
 
-	public void changeInfo() throws SQLException {
+	public void changeInfo(String[] args) throws SQLException {
 		java.util.Scanner unos = new java.util.Scanner(System.in);
 		// user inputs
 		System.out.println("Enter a column you want to update:");
@@ -266,10 +318,12 @@ public class Admin {
 		// updates the user info
 		String query = "update userinfo set " + col + "= '" + value + "' where ID = " + ID + ";";
 		statement.executeUpdate(query);
+		System.out.println("Successfully updated");
+		Hotel.optionsAdmin(args);
 		unos.close();
 	}
 
-	public void printReceipt() throws SQLException {
+	public void printReceipt(String[] args) throws SQLException {
 		java.util.Scanner input = new java.util.Scanner(System.in);
 		conection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel", "root", "root");
 		Statement statement = conection.createStatement();
@@ -297,28 +351,38 @@ public class Admin {
 		System.out.println(
 				"Other services: \t" + otherServices + "\t\t" + (Integer.parseInt(balance) - Integer.parseInt(cost)));
 		System.out.println("---------------------------------------------------");
-		System.out.println("Total: \t\t\t\t\t\t" + balance);
+		System.out.println("Total: \t\t\t\t\t\t" + balance + "\n");
+		Hotel.optionsAdmin(args);
 		input.close();
 	}
 
-	public void checkOutUser() throws SQLException {
+	public void checkOutUser(String[] args) throws SQLException {
 		java.util.Scanner input = new java.util.Scanner(System.in);
 		conection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel", "root", "root");
 		Statement statement = conection.createStatement();
 		System.out.println();
-		System.out.println("Enter ID for the user you want to check out out:");
+		System.out.println("Enter ID for the user you want to checkout:");
 		int id = input.nextInt();
-		// stores info in archive
+
+		CheckOutTime = getCheckOutTime();
+		//inputs the checkout time
+		String q = "update userinfo set CheckOutTime= '" + CheckOutTime + "' where ID = " + id + ";";
+		//updates the logged in column
+		String q1 = "update userinfo set LoggedIn= 'not' where ID = " + id + ";";
+		//moves to archive
 		String queryArhiva = "insert INTO archive select*from hotel.userinfo WHERE ID=" + id + ";";
 		// deletes the info
 		String query = "DELETE userinfo FROM hotel.userinfo WHERE ID =" + id + ";";
+		statement.executeUpdate(q);
+		statement.executeUpdate(q1);
 		statement.executeUpdate(queryArhiva);
 		statement.executeUpdate(query);
 		System.out.println("User succesfully checked out and archived");
+		Hotel.optionsAdmin(args);
 		input.close();
 	}
 
-	public void checkLoggedInUsers() throws SQLException {
+	public void checkLoggedInUsers(String[] args) throws SQLException {
 		java.util.Scanner input = new java.util.Scanner(System.in);
 		conection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hotel", "root", "root");
 		Statement statement = conection.createStatement();
@@ -327,6 +391,7 @@ public class Admin {
 		int choose = input.nextInt();
 		switch (choose) {
 		case 1: {
+			//searches for logged in users
 			String query = "select * from hotel.userinfo where LoggedIn = 'yes';";
 			ResultSet result = statement.executeQuery(query);
 			System.out.println("Logged in users:");
@@ -338,28 +403,39 @@ public class Admin {
 			break;
 		}
 		case 2: {
+			//logs out users
 			String query = "update hotel.userinfo set LoggedIn= 'not';";
 			statement.executeUpdate(query);
 			System.out.println("You succsesfully logged out all users");
 			break;
 		}
 		case 3: {
-			System.out.println();
+			//logs out a specific user
 			System.out.println("Enter ID for the user you want to log out:");
 			int id = input.nextInt();
 			String query = "update hotel.userinfo set LoggedIn='not' where ID =" + id + ";";
 			statement.executeUpdate(query);
 			System.out.println("User was successfully logged out");
+			break;
 		}
-		default:
+		case 4: {
+			//exits the system
+			System.out.println("System shuting down. Goodbye!");
 			System.exit(1);
 		}
+		default: {
+			Hotel.optionsAdmin(args);
+		}
+		}
+		Hotel.optionsAdmin(args);
 		input.close();
 	}
 
 	// metoda zapretragu korisnika
-	public void search() throws SQLException {
+	public void search(String[] args) throws SQLException {
 		java.util.Scanner unos = new java.util.Scanner(System.in);
+		System.out.println("Enter a table you want to search:");
+		String table = unos.next();
 		System.out.println("Search user by :");
 		String search = unos.next();
 		System.out.println("Enter the value for that cathegory");
@@ -367,7 +443,8 @@ public class Admin {
 		Connection konekcija = DriverManager.getConnection("jdbc:mysql://localhost/hotel", "root", "root");
 		Statement statement = konekcija.createStatement();
 		String query;
-		query = "SELECT * FROM hotel.userinfo where " + search + "= '" + value + "';";
+		//searches the tables with inputed values
+		query = "SELECT * FROM hotel." + table + " where " + search + "= '" + value + "';";
 		ResultSet resultat = statement.executeQuery(query);
 		// ispis
 		while (resultat.next()) {
@@ -381,6 +458,7 @@ public class Admin {
 					+ resultat.getString(15));
 
 		}
+		Hotel.optionsAdmin(args);
 		unos.close();
 
 	}
