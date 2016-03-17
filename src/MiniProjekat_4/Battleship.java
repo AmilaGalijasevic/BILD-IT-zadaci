@@ -422,6 +422,7 @@ public class Battleship {
 					grid4();
 					checkWinner2();
 				}
+				
 				// player two methods
 				if (p2) {
 					System.out.println();
