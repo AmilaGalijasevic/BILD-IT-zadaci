@@ -1,9 +1,6 @@
 package MiniProjekat_1;
 
 import java.io.FileNotFoundException;
-
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -20,81 +17,86 @@ public class MPCalendar {
 	}
 
 	public static void options(String name) throws FileNotFoundException {
-		// popravila sam par stvari..
-		// sad je nabacano na sve strane, ali radi...  :)
-		
-		java.util.Scanner input = new java.util.Scanner(System.in);
-		ArrayList<Integer> Monthdays = new ArrayList<>();
-		Monthdays.add(31);
-		Monthdays.add(28);
-		Monthdays.add(31);
-		Monthdays.add(30);
-		Monthdays.add(31);
-		Monthdays.add(30);
-		Monthdays.add(31);
-		Monthdays.add(31);
-		Monthdays.add(30);
-		Monthdays.add(31);
-		Monthdays.add(30);
-		Monthdays.add(31);
-		int year = 0;
-		// calculates if the current year is leap year
-		if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
-			// if it is removes index representing days of the month for
-			// February
-			Monthdays.remove(1);
-			// add 29 numbers instead
-			Monthdays.add(1, 29);
-		}
-		// offers options to user
-		System.out.println("Choose:");
-		System.out.println("1 for adding remander");
-		System.out.println("2 for viewing remanders");
-		System.out.println("3 for back to calender");
-		System.out.println("4 for exit");
-		int choose = input.nextInt();
-		// calls the right method depending on the choice
-		if (choose == 1) {
-			name = ".txt";
-			System.out.println("Enter year");
-			year = input.nextInt();
-			System.out.println("Enter a month");
-			int month = input.nextInt();
-			// if input is bigger than 12
-			while (month > 12 || month < 0) {
-				System.out.println("Wrong number, try again:");
-				month = input.nextInt();
+		try {
+			java.util.Scanner input = new java.util.Scanner(System.in);
+			ArrayList<Integer> Monthdays = new ArrayList<>();
+			Monthdays.add(31);
+			Monthdays.add(28);
+			Monthdays.add(31);
+			Monthdays.add(30);
+			Monthdays.add(31);
+			Monthdays.add(30);
+			Monthdays.add(31);
+			Monthdays.add(31);
+			Monthdays.add(30);
+			Monthdays.add(31);
+			Monthdays.add(30);
+			Monthdays.add(31);
+			int year = 0;
+			// calculates if the current year is leap year
+			if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+				// if it is removes index representing days of the month for
+				// February
+				Monthdays.remove(1);
+				// add 29 numbers instead
+				Monthdays.add(1, 29);
 			}
-			System.out.println("Enter a date: ");
-			int date = input.nextInt();
-
-			// if input is bigger than days in particular month
-			for (int i = 0; i < Monthdays.size(); i++) {
-
-				while (date > Monthdays.get(month - 1) || (date < 0)) {
-					System.out.println("Number too big, try again:");
-					date = input.nextInt();
+			// offers options to user
+			System.out.println("Choose:");
+			System.out.println("1 for adding remander");
+			System.out.println("2 for viewing remanders");
+			System.out.println("3 for back to calender");
+			System.out.println("4 for exit");
+			int choose = input.nextInt();
+			// calls the right method depending on the choice
+			if (choose == 1) {
+				name = ".txt";
+				System.out.println("Enter year");
+				year = input.nextInt();
+				System.out.println("Enter a month");
+				int month = input.nextInt();
+				// if input is bigger than 12
+				while (month > 12 || month < 0) {
+					System.out.println("Wrong number, try again:");
+					month = input.nextInt();
 				}
+				System.out.println("Enter a date: ");
+				int date = input.nextInt();
+
+				// if input is bigger than days in particular month
+				for (int i = 0; i < Monthdays.size(); i++) {
+
+					while (date > Monthdays.get(month - 1) || (date < 0)) {
+						System.out.println("Number too big, try again:");
+						date = input.nextInt();
+					}
+				}
+
+				name = date + "." + month + "." + year + "" + name;
+				// calls method for adding reminders
+				addReminder(name);
+			}
+			if (choose == 2) {
+				// calls method for viewing
+				viewReminder(name);
+			}
+			// prints calendar
+			if (choose == 3) {
+				Calendar(name);
+			}
+			// exists the program
+			if (choose == 4) {
+				System.out.println("Goodbye");
+				System.exit(1);
+			} else {
+				System.out.println("Wrong input, try again");
+				options(name);
 			}
 
-			name = date + "." + month + "." + year + "" + name;
-			// calls method for adding reminders
-			addReminder(name);
+		} catch (InputMismatchException e) {
+			System.out.println("Wrong input, try again");
+			options(name);
 		}
-		if (choose == 2) {
-			// calls method for viewing
-			viewReminder(name);
-		}
-		// prints calendar
-		if (choose == 3) {
-			Calendar(name);
-		}
-		// exists the program
-		if (choose == 4) {
-			System.out.println("Goodbye");
-			System.exit(1);
-		}
-
 	}
 
 	public static void addReminder(String name) throws FileNotFoundException {
@@ -114,6 +116,7 @@ public class MPCalendar {
 				}
 				scanner.close();
 			}
+
 		} catch (FileNotFoundException ex) {
 			System.out.println("...");
 
@@ -164,7 +167,6 @@ public class MPCalendar {
 			Scanner input = new Scanner(file);
 			while (input.hasNextLine()) {
 				String reminder = input.nextLine();
-
 				System.out.println("Reminder: " + reminder);
 			}
 			input.close();
@@ -180,7 +182,6 @@ public class MPCalendar {
 	public static void Calendar(String name) throws FileNotFoundException {
 
 		java.util.Scanner input = new java.util.Scanner(System.in);
-		// declaring variables
 		try {
 
 			System.out.println("Enter the year: ");
@@ -280,9 +281,9 @@ public class MPCalendar {
 
 			}
 
-			// This puts some space after the calendar is printed.
 			System.out.println("\n");
 			options(name);
+			input.close();
 		} catch (InputMismatchException ey) {
 			System.out.println("Wrong input");
 		}
