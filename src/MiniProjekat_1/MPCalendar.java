@@ -71,7 +71,6 @@ public class MPCalendar {
 						date = input.nextInt();
 					}
 				}
-
 				name = date + "." + month + "." + year + "" + name;
 				// calls method for adding reminders
 				addReminder(name);
@@ -124,7 +123,6 @@ public class MPCalendar {
 		try {
 
 			java.io.PrintWriter output = new java.io.PrintWriter(file);
-
 			System.out.println("Enter reminder");
 			String reminder = input.nextLine();
 			// prints reminders in file
@@ -137,7 +135,6 @@ public class MPCalendar {
 		}
 		// calls method
 		options(name);
-
 	}
 
 	public static void viewReminder(String name) throws FileNotFoundException {
@@ -272,15 +269,10 @@ public class MPCalendar {
 					} else {
 						// prints rest of the dates
 						System.out.print(i + space);
-
 						days++;
-
 					}
-
 				}
-
 			}
-
 			System.out.println("\n");
 			options(name);
 			input.close();
